@@ -18,13 +18,13 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
-    accounts = relationship("Account", back_populates="user")
+    wallets = relationship("Wallet", back_populates="user")
 
 
-class Account(Base):
-    __tablename__ = 'accounts'
+class Wallet(Base):
+    __tablename__ = 'wallets'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     balance = Column(Numeric, nullable=False, default=0.0)
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
 
-    user = relationship("User", back_populates="accounts")
+    user = relationship("User", back_populates="wallets")
