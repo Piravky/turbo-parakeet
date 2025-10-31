@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: itk-db
+    restart: unless-stopped
+    privileged: true
+    env_file:
+      - .env_db
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      itk_net:
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    container_name: backend-itk
+    privileged: true
+    depends_on:
+      - postgres
+    networks:
+      itk_net:
+
+networks:
+  itk_net:
+
+volumes:
+  postgres_data:
